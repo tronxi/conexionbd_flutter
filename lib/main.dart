@@ -106,7 +106,7 @@ class MyAppState extends State<Myapp> {
                         onPressed: onPressActualizar,
                       ),
                       Padding(padding: EdgeInsets.all(8.0)),
-                      mostrar ? wd : Container()
+                      mostrar ? wd : Container(),
                     ]))));
   }
   FutureBuilder<List<Dato>> construir(){
