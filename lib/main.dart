@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 void main() => runApp(MaterialApp(home: Myapp()));
 //const String url = 'http://raspberrytronxi.ddns.net/conexionBD-spring/dato/';
 const String url = "http://192.168.0.5/conexionBD-spring/dato/";
+
 class Dato {
   final int id;
   final String nombre;
@@ -22,8 +23,7 @@ class Dato {
 }
 
 Future<List<Dato>> fetchDatos(http.Client client) async {
-  final response =
-  await client.get(url);
+  final response = await client.get(url);
   return compute(parseDatos, response.body);
 }
 
@@ -46,10 +46,12 @@ class MyAppState extends State<Myapp> {
   String mensajeBorrar = "";
   bool mostrar;
   FutureBuilder<List<Dato>> wd;
-  MyAppState(){
+
+  MyAppState() {
     mostrar = false;
     wd = construir();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,55 +64,56 @@ class MyAppState extends State<Myapp> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: "introduce el id"),
-                        onChanged: (String value) {
-                          onChangedBorrar(value);
-                        },
-                        controller: controllerBorrar,
-                      ),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      RaisedButton(
-                        child: Text(
-                          "Borrar",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.blueAccent,
-                        onPressed: onPressBorrar,
-                      ),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      TextField(
-                        decoration:
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(hintText: "introduce el id"),
+                    onChanged: (String value) {
+                      onChangedBorrar(value);
+                    },
+                    controller: controllerBorrar,
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0)),
+                  RaisedButton(
+                    child: Text(
+                      "Borrar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blueAccent,
+                    onPressed: onPressBorrar,
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0)),
+                  TextField(
+                    decoration:
                         InputDecoration(hintText: "introduce el nombre"),
-                        onChanged: (String value) {
-                          onChangedEnviar(value);
-                        },
-                        controller: controllerEnviar,
-                      ),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      RaisedButton(
-                        child: Text(
-                          "Enviar",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.blueAccent,
-                        onPressed: onPressEnviar,
-                      ),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      RaisedButton(
-                        child: Text(
-                          "Actualizar",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.lightGreenAccent,
-                        onPressed: onPressActualizar,
-                      ),
-                      Padding(padding: EdgeInsets.all(8.0)),
-                      mostrar ? wd : Container(),
-                    ]))));
+                    onChanged: (String value) {
+                      onChangedEnviar(value);
+                    },
+                    controller: controllerEnviar,
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0)),
+                  RaisedButton(
+                    child: Text(
+                      "Enviar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.blueAccent,
+                    onPressed: onPressEnviar,
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0)),
+                  RaisedButton(
+                    child: Text(
+                      "Actualizar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.lightGreenAccent,
+                    onPressed: onPressActualizar,
+                  ),
+                  Padding(padding: EdgeInsets.all(8.0)),
+                  mostrar ? wd : Container(),
+                ]))));
   }
-  FutureBuilder<List<Dato>> construir(){
+
+  FutureBuilder<List<Dato>> construir() {
     return FutureBuilder<List<Dato>>(
         future: fetchDatos(http.Client()),
         builder: (context, snapshot) {
@@ -120,6 +123,7 @@ class MyAppState extends State<Myapp> {
               : Center(child: CircularProgressIndicator());
         });
   }
+
   void onChangedBorrar(String borrar) {
     setState(() {
       mensajeBorrar = borrar;
@@ -135,16 +139,16 @@ class MyAppState extends State<Myapp> {
   void onPressBorrar() {
     setState(() {
       var urlBorrar = url + mensajeBorrar;
-      http.delete(urlBorrar, headers: {"Content-Type": "application/json"}).then(
-              (response) {
-            print("Response status: ${response.statusCode}");
-            print("Response body: ${response.body}");
-          });
+      http.delete(urlBorrar,
+          headers: {"Content-Type": "application/json"}).then((response) {
+        print("Response status: ${response.statusCode}");
+        print("Response body: ${response.body}");
+      });
       controllerBorrar.text = "";
     });
   }
 
-  void onPressActualizar(){
+  void onPressActualizar() {
     setState(() {
       mostrar = true;
       wd = construir();
@@ -181,6 +185,11 @@ class DatoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(_crearTexto());
+    return Expanded(
+            flex: 1,
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                reverse: true,
+                child: Text(_crearTexto())));
   }
 }
