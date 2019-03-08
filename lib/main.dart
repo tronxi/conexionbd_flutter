@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(MaterialApp(home: Myapp()));
-
+//const String url = 'http://raspberrytronxi.ddns.net/conexionBD-spring/dato/';
+const String url = "http://192.168.0.5/conexionBD-spring/dato/";
 class Dato {
   final int id;
   final String nombre;
@@ -22,7 +23,7 @@ class Dato {
 
 Future<List<Dato>> fetchDatos(http.Client client) async {
   final response =
-  await client.get('http://192.168.0.5/conexionBD-spring/dato');
+  await client.get(url);
   return compute(parseDatos, response.body);
 }
 
@@ -102,7 +103,7 @@ class MyAppState extends State<Myapp> {
                           "Actualizar",
                           style: TextStyle(color: Colors.white),
                         ),
-                        color: Colors.blueAccent,
+                        color: Colors.lightGreenAccent,
                         onPressed: onPressActualizar,
                       ),
                       Padding(padding: EdgeInsets.all(8.0)),
@@ -133,8 +134,8 @@ class MyAppState extends State<Myapp> {
 
   void onPressBorrar() {
     setState(() {
-      var url = "http://192.168.0.5/conexionBD-spring/dato/" + mensajeBorrar;
-      http.delete(url, headers: {"Content-Type": "application/json"}).then(
+      var urlBorrar = url + mensajeBorrar;
+      http.delete(urlBorrar, headers: {"Content-Type": "application/json"}).then(
               (response) {
             print("Response status: ${response.statusCode}");
             print("Response body: ${response.body}");
@@ -154,7 +155,6 @@ class MyAppState extends State<Myapp> {
     Map data = {'nombre': mensajeEnviar};
     var body = json.encode(data);
     setState(() {
-      var url = "http://192.168.0.5/conexionBD-spring/dato";
       http
           .post(url, headers: {"Content-Type": "application/json"}, body: body)
           .then((response) {
