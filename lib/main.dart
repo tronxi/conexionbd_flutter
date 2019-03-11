@@ -42,6 +42,13 @@ class Myapp extends StatefulWidget {
 class MyAppState extends State<Myapp> {
   final TextEditingController controllerEnviar = new TextEditingController();
   final TextEditingController controllerBorrar = new TextEditingController();
+
+  Color colorFondoBoton = Colors.lightBlueAccent;
+
+  TextStyle estiloTextoBoton = TextStyle(
+    color: Colors.white,
+    fontSize: 16
+  );
   String mensajeEnviar = "";
   String mensajeBorrar = "";
   bool mostrar;
@@ -56,7 +63,10 @@ class MyAppState extends State<Myapp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Conexion-BD"),
+          backgroundColor: Colors.yellowAccent,
+          title: Text("Conexion-BD", style: TextStyle(
+            color: Colors.black
+          ),),
         ),
         body: Container(
             padding: EdgeInsets.all(8.0),
@@ -76,9 +86,9 @@ class MyAppState extends State<Myapp> {
                   RaisedButton(
                     child: Text(
                       "Borrar",
-                      style: TextStyle(color: Colors.white),
+                      style: estiloTextoBoton
                     ),
-                    color: Colors.blueAccent,
+                    color: colorFondoBoton,
                     onPressed: onPressBorrar,
                   ),
                   Padding(padding: EdgeInsets.all(8.0)),
@@ -94,18 +104,18 @@ class MyAppState extends State<Myapp> {
                   RaisedButton(
                     child: Text(
                       "Enviar",
-                      style: TextStyle(color: Colors.white),
+                      style: estiloTextoBoton
                     ),
-                    color: Colors.blueAccent,
+                    color: colorFondoBoton,
                     onPressed: onPressEnviar,
                   ),
                   Padding(padding: EdgeInsets.all(8.0)),
                   RaisedButton(
                     child: Text(
                       "Actualizar",
-                      style: TextStyle(color: Colors.white),
+                      style: estiloTextoBoton,
                     ),
-                    color: Colors.lightGreenAccent,
+                    color: colorFondoBoton,
                     onPressed: onPressActualizar,
                   ),
                   Padding(padding: EdgeInsets.all(8.0)),
